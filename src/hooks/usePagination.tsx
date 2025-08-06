@@ -1,8 +1,8 @@
 import { useState } from "preact/hooks";
 import type { Comment } from "../types/commentType";
 
-export function usePagination({ items }: { items: Comment[] }, { pageLimit }: { pageLimit: number }) { 
-    const [currentPage, setCurrentPage] = useState(1);
+export function usePagination(items: Comment[] ,  pageLimit: number ) { 
+    const [currentPage, setCurrentPage] = useState(0);
     const totalPages = Math.ceil(items.length / pageLimit);
 
     const changePage = (page:number) => {

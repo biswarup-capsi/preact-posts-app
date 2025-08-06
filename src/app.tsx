@@ -1,6 +1,6 @@
 // import { useState } from 'preact/hooks'
 import './app.css'
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { signal } from '@preact/signals';
 import type { Comment } from './types/commentType';
 import {usePagination} from './hooks/usePagination';
@@ -34,6 +34,9 @@ export function App() {
     enabled: true,
 
   });
+  const { changePage, currentPage, nextPage, pageData, prevPage, totalPages} = usePagination(data || [], 3);
+
+  
 
   async function getPosts(id:number):Promise<Comment[]>{
     const response = await fetch(`https://jsonplaceholder.typicode.com/comments?postId=${id}`);
@@ -45,10 +48,24 @@ export function App() {
 
   return (
     <>
-      {isPending ? <h1>Loading...</h1> : (data?.slice(0, 10).map(comment =>
+      {isPending ? <h1>Loading...</h1> : (pageData().map(comment =>
         <CommentCard comment={comment} />
       ))}
-      <br /><br /><br /><br /><br />
+      {/* Pagination controls */}
+      <div style={{ textAlign: 'center', marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px' }}>
+        <button onClick={prevPage} >
+          Previous
+        </button>
+        <span style={{ margin: '0 12px' }}>
+          Page {currentPage + 1} of {totalPages}
+        </span>
+        <button onClick={nextPage} >
+          Next
+        </button>
+      </div>
+      <br />
+      <button onClick={() => id.value++}>Prev post</button>
+      <h3>My posts</h3>
       <button onClick={()=>id.value++}>Next post</button>
     </>
   )
