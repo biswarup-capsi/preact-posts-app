@@ -62,9 +62,11 @@ const Home = () => {
                 </button>
             </div>
             <br />
-            <button onClick={() => id.value++}>Prev post</button>
-            <h3>My posts</h3>
-            <button onClick={() => id.value++}>Next post</button>
+            <div style={{ textAlign: 'center' }}>
+                <button onClick={() => id.value++}>Prev post</button>
+                <h3>My posts</h3>
+                <button onClick={() => id.value++}>Next post</button>
+            </div>
         </>
     )
 }
